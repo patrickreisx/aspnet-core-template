@@ -1,0 +1,20 @@
+﻿services:
+  aspnetcoretemplate.api:
+    image: aspnetcoretemplate.api
+    build:
+      context: .
+      dockerfile: src/AspNetCoreTemplate.API/Dockerfile
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: aspnetcoretemplate
+      POSTGRES_PASSWORD: aspnetcoretemplate
+      POSTGRES_DB: aspnetcoretemplate
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:

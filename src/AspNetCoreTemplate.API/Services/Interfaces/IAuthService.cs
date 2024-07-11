@@ -6,6 +6,6 @@ namespace AspNetCoreTemplate.API.Services.Interfaces;
 
 public interface IAuthService
 {
-	Task<ActionResult<dynamic>?> Authenticate(AuthRequestDto auth);
+	Task<ActionResult> Authenticate(AuthRequestDto auth);
 	string GenerateToken(User user);
 }

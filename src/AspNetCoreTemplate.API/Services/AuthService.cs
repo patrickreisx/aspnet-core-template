@@ -17,7 +17,7 @@ namespace AspNetCoreTemplate.API.Services;
 
 public class AuthService(IOptions<JwtSettings> jwtSettings, IUserRepository userRepository, IHashService hashService, IMapper mapper) : IAuthService
 {
-	public async Task<ActionResult<dynamic>?> Authenticate(AuthRequestDto auth)
+	public async Task<ActionResult> Authenticate(AuthRequestDto auth)
 	{
 		var userEntity = await userRepository.GetByUsername(auth.Username);
 		var user = mapper.Map<UserReadDto>(userEntity);

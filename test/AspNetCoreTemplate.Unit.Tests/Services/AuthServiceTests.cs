@@ -17,6 +17,7 @@ namespace AspNetCoreTemplate.Unit.Tests.Services
     public class AuthServiceTests
     {
         private readonly Mock<IUserRepository> _userRepositoryMock;
+        private readonly Mock<ITokenService> _tokenServiceMock;
         private readonly Mock<IHashService> _hashServiceMock;
         private readonly Mock<IMapper> _mapperMock;
         private readonly AuthService _authService;
@@ -28,8 +29,9 @@ namespace AspNetCoreTemplate.Unit.Tests.Services
 
             _userRepositoryMock = new Mock<IUserRepository>();
             _hashServiceMock = new Mock<IHashService>();
+            _tokenServiceMock = new Mock<ITokenService>();
             _mapperMock = new Mock<IMapper>();
-            _authService = new AuthService(jwtSettingsMock.Object, _userRepositoryMock.Object, _hashServiceMock.Object, _mapperMock.Object);
+            _authService = new AuthService(_userRepositoryMock.Object, _hashServiceMock.Object, _tokenServiceMock.Object, _mapperMock.Object);
         }
 
         [Fact]

@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
 		.gitignore = .gitignore
+		docker-compose.development.yml = docker-compose.development.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreTemplate.Unit.Tests", "test\AspNetCoreTemplate.Unit.Tests\AspNetCoreTemplate.Unit.Tests.csproj", "{F3FF06F3-8033-4C67-B9DC-AA208FD26B98}"

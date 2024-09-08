@@ -1,0 +1,25 @@
+﻿# Base image with .NET SDK
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS development
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy csproj and restore as distinct layers
+COPY ["src/AspNetCoreTemplate.API/AspNetCoreTemplate.API.csproj", "src/AspNetCoreTemplate.API/"]
+COPY ["src/AspNetCoreTemplate.Infra/AspNetCoreTemplate.Infra.csproj", "src/AspNetCoreTemplate.Infra/"]
+COPY ["src/AspNetCoreTemplate.Domain/AspNetCoreTemplate.Domain.csproj", "src/AspNetCoreTemplate.Domain/"]
+RUN dotnet restore "src/AspNetCoreTemplate.API/AspNetCoreTemplate.API.csproj"
+
+# Copy everything else and build
+COPY . .
+WORKDIR "/src/src/AspNetCoreTemplate.API"
+
+# Set environment to development
+ENV ASPNETCORE_ENVIRONMENT=Development
+
+# Expose the port the app runs on
+EXPOSE 8080
+EXPOSE 8081
+
+# Start the application
+ENTRYPOINT ["dotnet", "watch", "run", "--urls", "http://+:8080"]

@@ -3,7 +3,7 @@
     image: aspnetcoretemplate.api
     build:
       context: .
-      dockerfile: src/AspNetCoreTemplate.API/Dockerfile
+      dockerfile: src/AspNetCoreTemplate.API/Dockerfile.development
 
   postgres:
     image: postgres

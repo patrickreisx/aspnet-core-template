@@ -5,11 +5,15 @@ using Microsoft.EntityFrameworkCore;
 
 
 namespace AspNetCoreTemplate.API.UseCases;
-public class ArticleUseCase(EntityContext context) : IArticleUseCase
+public class ArticleUseCase(EntityContext context, IHttpContextAccessor httpContextAccessor) : IArticleUseCase
 {
 	public IEnumerable<Article> GetArticles()
 	{
-		var articles = context.Article.Include(x => x.User).ToList();
+		var user = httpContextAccessor.HttpContext?.Items["User"] as User;
+
+		var articles = context.Article.Include(x => x.User)
+			.Where(x => x.UserId == user!.UserId)
+			.ToList();
 
 		return articles;
 	}

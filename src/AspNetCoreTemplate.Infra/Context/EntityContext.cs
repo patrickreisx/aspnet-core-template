@@ -5,8 +5,13 @@ using Microsoft.EntityFrameworkCore.ValueGeneration;
 
 namespace AspNetCoreTemplate.Infra.Context;
 
-public class EntityContext(DbContextOptions<EntityContext> options) : DbContext(options)
+public class EntityContext : DbContext
 {
+	public EntityContext(DbContextOptions<EntityContext> options)
+		: base(options)
+	{
+	}
+
 	public DbSet<Article> Article { get; init; } = null!;
 	public DbSet<User> User { get; init; } = null!;
 
@@ -16,12 +21,14 @@ public class EntityContext(DbContextOptions<EntityContext> options) : DbContext(
 		{
 			ob.ToTable("articles");
 			ob.HasKey(o => o.ArticleId);
-			ob.Property(o => o.ArticleId).HasColumnName("id");
+			ob.Property(o => o.ArticleId).HasColumnName("id").ValueGeneratedOnAdd();
+			ob.Property(o => o.ArticleUuid).HasColumnName("uuid").HasValueGenerator<GuidValueGenerator>();
 			ob.Property(o => o.Title).HasColumnName("title").IsRequired();
 			ob.Property(o => o.Content).HasColumnName("content").IsRequired();
 			ob.Property(o => o.CreatedAt).HasColumnName("created_at");
 			ob.Property(o => o.UpdatedAt).HasColumnName("updated_at");
 			ob.Property(o => o.UserId).HasColumnName("user_id");
+			ob.HasOne(o => o.User).WithMany(u => u.Articles).HasForeignKey(o => o.UserId).OnDelete(DeleteBehavior.Cascade);
 		});
 
 		modelBuilder.Entity<User>(ob =>
@@ -33,7 +40,6 @@ public class EntityContext(DbContextOptions<EntityContext> options) : DbContext(
 			ob.Property(o => o.Email).HasColumnName("email").IsRequired();
 			ob.Property(o => o.UserName).HasColumnName("username").IsRequired();
 			ob.Property(o => o.Password).HasColumnName("password").IsRequired();
-			ob.HasMany(o => o.Articles).WithOne(o => o.User).HasForeignKey(o => o.UserId);
 		});
 	}
 }
